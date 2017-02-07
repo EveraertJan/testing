@@ -122,6 +122,7 @@ class App extends cargo.CargoApp {
       log.error("no userId");
       return {};
     }
+    payload['date_add'] = new Date().getTime();
     const _this = this;
     // TODO: first assert that there isn't already a reward with the given id...
     //log.debug(payload);
