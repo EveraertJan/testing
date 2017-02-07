@@ -10,6 +10,7 @@ const cargo = require('cargo-lib');
 const _ = require('lodash');
 const log4js = require('log4js');
 
+const user = require('./User');
 
 const log = log4js.getLogger('App');
 
@@ -18,6 +19,7 @@ class App extends cargo.CargoApp {
   constructor(opts) {
     super(opts);
     this.store = null;
+    this.curUsers = [];
   }
 
   /** @inheritdoc */
@@ -54,12 +56,12 @@ class App extends cargo.CargoApp {
     const devMode = this.config.devMode;
 
     router
-      .get('/user/test', function* () {
+      .get('/users/test', function* () {
         this.body = {
           test: 'success'
         };
       })
-      .post('/user/', function* () {
+      .post('/users/', function* () {
         //get questions
         //save questionlist in the state
         //give next id to answe anything

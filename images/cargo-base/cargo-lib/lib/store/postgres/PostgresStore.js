@@ -122,7 +122,7 @@ class PostgresStore extends StoreBase {
         log.trace(query);
         client.query(query, function (err, result) {
           done();
-          err ? reject(err) : resolve(result.rows);
+          err ? reject(err) : resolve(result);
         });
       })
     })

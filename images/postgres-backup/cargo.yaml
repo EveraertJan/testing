@@ -1,6 +1,0 @@
-
-service: fogg-postgres-backup
-version: 0.0.1
-cargoApp: false
-cargoFrontend: false
-watchable: false

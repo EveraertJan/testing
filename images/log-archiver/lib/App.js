@@ -23,7 +23,7 @@ class App extends CargoApp {
     // The channels for which to store the message:
     this.logChannels = [
       this.config.get('channels.logs.incoming'),
-      this.config.get('channels.rulesEngine.matches'),
+      this.config.get('channels.answers.incomming'),
       this.config.get('channels.system.asmResponses')
     ];
 
@@ -40,7 +40,7 @@ class App extends CargoApp {
     // Subscribe to channels:
     this.broker.subscribe(this.logChannels, (channel, message) => {
       let payload = {};
-      if(message.type == "rulesEngine.match") {
+      if(message.type == "answers.answer") {
         // @todo: add accurate message later
         const t = new Date().getTime();
         payload = {

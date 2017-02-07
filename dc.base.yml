@@ -126,7 +126,7 @@ services:
       - system_traefik
     labels:
       traefik.backend: wijze-stad-answer-admin
-      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/answer
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/answers
       traefik.port: "80"
       traefik.docker.network: system_traefik
 
@@ -140,7 +140,7 @@ services:
       - system_traefik
     labels:
       traefik.backend: wijze-stad-user-admin
-      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/user
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/users
       traefik.port: "80"
       traefik.docker.network: system_traefik
 

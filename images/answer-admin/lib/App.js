@@ -53,12 +53,12 @@ class App extends cargo.CargoApp {
     const devMode = this.config.devMode;
 
     router
-      .get('/answer/', function* () {
+      .get('/answers/', function* () {
         this.body = {
           test: 'success'
         };
       })
-      .post('/answer/',  function* () {
+      .post('/answers/',  function* () {
         _this.log.debug(this.params);
         _this.log.debug(this);
 
