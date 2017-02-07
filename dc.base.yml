@@ -87,33 +87,33 @@ services:
       traefik.docker.network: system_traefik
 
 
-  wijze-stad-log-archiver:
-    extends:
-      service: cargo-base
-    build:
-      context: ./images/log-archiver/
-    networks:
-      - default
-      - system_traefik
-    labels:
-      traefik.backend: wijze-stad-log-archiver
-      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/results
-      traefik.port: "80"
-      traefik.docker.network: system_traefik
+  # wijze-stad-log-archiver:
+  #   extends:
+  #     service: cargo-base
+  #   build:
+  #     context: ./images/log-archiver/
+  #   networks:
+  #     - default
+  #     - system_traefik
+  #   labels:
+  #     traefik.backend: wijze-stad-log-archiver
+  #     traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/results
+  #     traefik.port: "80"
+  #     traefik.docker.network: system_traefik
 
-  wijze-stad-log-service:
-    extends:
-      service: cargo-base
-    build:
-      context: ./images/log-service/
-    networks:
-      - default
-      - system_traefik
-    labels:
-      traefik.backend: wijze-stad-log-service
-      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/logs
-      traefik.port: "80"
-      traefik.docker.network: system_traefik
+  # wijze-stad-log-service:
+  #   extends:
+  #     service: cargo-base
+  #   build:
+  #     context: ./images/log-service/
+  #   networks:
+  #     - default
+  #     - system_traefik
+  #   labels:
+  #     traefik.backend: wijze-stad-log-service
+  #     traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/logs
+  #     traefik.port: "80"
+  #     traefik.docker.network: system_traefik
 
 
   wijze-stad-answer-admin:

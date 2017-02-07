@@ -74,40 +74,40 @@ services:
       - ./images/admin/html/src:/cargo/html/src
 
 
-  wijze-stad-log-archiver:
-    extends:
-      file: dc.base.yml
-      service: wijze-stad-log-archiver
-    build:
-      dockerfile: df.dev.yml
-    environment:
-#      APP_WATCH_MODE: "true"
-      CARGO_DELAY: 5
-      NODE_ENV: development
-      POSTGRES_DB:
-      POSTGRES_PASSWORD:
-      POSTGRES_USER:
-#      VERBOSE: "true"
-    volumes:
-      - ./images/cargo-base/config:/cargo/config
-      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
-      - ./images/log-archiver/lib:/cargo/app/lib
+#   wijze-stad-log-archiver:
+#     extends:
+#       file: dc.base.yml
+#       service: wijze-stad-log-archiver
+#     build:
+#       dockerfile: df.dev.yml
+#     environment:
+# #      APP_WATCH_MODE: "true"
+#       CARGO_DELAY: 5
+#       NODE_ENV: development
+#       POSTGRES_DB:
+#       POSTGRES_PASSWORD:
+#       POSTGRES_USER:
+# #      VERBOSE: "true"
+#     volumes:
+#       - ./images/cargo-base/config:/cargo/config
+#       - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+#       - ./images/log-archiver/lib:/cargo/app/lib
 
-  wijze-stad-log-service:
-    extends:
-      file: dc.base.yml
-      service: wijze-stad-log-service
-    build:
-      dockerfile: df.dev.yml
-    environment:
-#      APP_WATCH_MODE: "true"
-      CARGO_DELAY: 6
-      NODE_ENV: development
-#      VERBOSE: "true"
-    volumes:
-      - ./images/cargo-base/config:/cargo/config
-      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
-      - ./images/log-service/lib:/cargo/app/lib
+#   wijze-stad-log-service:
+#     extends:
+#       file: dc.base.yml
+#       service: wijze-stad-log-service
+#     build:
+#       dockerfile: df.dev.yml
+#     environment:
+# #      APP_WATCH_MODE: "true"
+#       CARGO_DELAY: 6
+#       NODE_ENV: development
+# #      VERBOSE: "true"
+#     volumes:
+#       - ./images/cargo-base/config:/cargo/config
+#       - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+#       - ./images/log-service/lib:/cargo/app/lib
 
   wijze-stad-answer-admin:
     extends:
@@ -190,8 +190,8 @@ services:
       service: wijze-stad-socket-server
     build:
       dockerfile: df.dev.yml
-    links: 
-      - wijze-stad-log-service
+    # links: 
+    #   - wijze-stad-log-service
     environment:
       APP_WATCH_MODE: "true"
       CARGO_DELAY: 8

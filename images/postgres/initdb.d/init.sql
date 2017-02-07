@@ -20,7 +20,6 @@ CREATE TABLE users (
   age INT,
   date_add VARCHAR(50),
   gender VARCHAR(10)
-
 );
 
 CREATE TABLE answers (

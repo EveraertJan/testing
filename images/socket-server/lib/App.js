@@ -35,22 +35,16 @@ class App extends CargoApp {
    yield this.subscribe()
     yield this.broker.subscribe(this.inChannels, (channel, message) => {
       this.log.debug('received answer');
-      if(message.type === 'answers.answer'){
-        this.log.debug('received answer');
-        try {
-          for (var socket of this.sockets) {
-            this.log.debug('socket info', message.fact.socketId, socket.socket.id);
-            if(socket.id === message.fact.user){
-              this.log.debug('sending event');
-              socket.socket.emit('reward-event', JSON.stringify(message));
-            }
-          }
+      try {
+        for (var socket of this.sockets) {
+          this.log.debug('emitted');
+          socket.socket.emit('reward-event', JSON.stringify(message));
         }
-        catch (error) {
-          this.log.error("Failed to broadcast the log event:", message);
-          this.log.error(error.stack);
-          throw error;
-        }
+      }
+      catch (error) {
+        this.log.error("Failed to broadcast the log event:", message);
+        this.log.error(error.stack);
+        throw error;
       }
     });;
 
@@ -119,46 +113,6 @@ class App extends CargoApp {
       yield* onDisconnect(this);
     });
 
-    this.socketServer.io.route('login', function* () {
-      // we tell the client to execute 'new message'
-      var message = this.data[0];
-      _this.log.debug(message, this.client.id)
-
-      for(const socket of _this.sockets) {
-        if(socket.socket.id === this.client.id){
-          socket.id = message.userId;
-          socket.socket.emit('login_success', JSON.stringify(message));
-        }
-      }
-
-    });
-
-    // router for socket event
-    this.socketServer.io.route('socket-response', function* () {
-      // we tell the client to execute 'new message'
-      var message = this.data[0];
-
-      const event = {
-        timestamp: new Date().getTime(),
-        type: message.type,
-        count: 1,
-        message
-      };
-      //this.client.id
-      const report = {
-        client: 'socket',
-        user: message.userId,
-        socketId: this.client.id,
-        platform: 'web',
-        events: [event]
-      };
-      //_this.log.debug(report);
-      const logChannel = 'fogg.logService.transfer';
-      return _this.broker.publish(logChannel, report)
-        .then((response)=> _this.log.debug(logChannel, response))
-        .catch((error) => prependError(error, `Failed to publish the log events on the stream broker`));
-
-    });
 
     this.socketServer.listen(port);
     this.log.info(`The socket server listens on port ${port}`);
@@ -169,7 +123,7 @@ class App extends CargoApp {
     return this.broker.subscribe(this.inChannels, (channel, event) => {
       _this.log.debug(event);
       for(const socket in _this.sockets) {
-        _this.sockets[socket].emit('reward-event', JSON.stringify('matched'));
+        _this.sockets[socket].emit('init', 'welcome');
       }
     });
   }

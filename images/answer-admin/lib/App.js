@@ -9,6 +9,7 @@
 const cargo = require('cargo-lib');
 const _ = require('lodash');
 const log4js = require('log4js');
+const Promise = require('bluebird');
 
 const log = log4js.getLogger('App');
 
@@ -18,6 +19,8 @@ class App extends cargo.CargoApp {
     super(opts);
     this.store = null;
     this.curUsers = [];
+
+    this.logChannel = this.config.get('channels.answers.outgoing');
   }
 
   /** @inheritdoc */
@@ -71,6 +74,9 @@ class App extends cargo.CargoApp {
         //save answerlist in the state
         //give next id to answe anything
         const report = this.request.body; 
+        const published = yield Promise.all([
+          _this.publishEvents(report)
+        ]);
         const result = yield _this.addAnswer(this.request.body);
         this.body = result;
       }) 
@@ -96,6 +102,11 @@ class App extends cargo.CargoApp {
         const result = yield _this.deleteAnswer(this.params.idx);
         this.body = result;
       })
+  }
+  publishEvents(report) {
+    //this.log.trace('>> App.publishEvents()', report);
+    return this.broker.publish(this.logChannel, report)
+      .catch((error) => prependError(error, `Failed to publish the log events on the stream broker`));
   }
 
   addAnswer(payload) {
