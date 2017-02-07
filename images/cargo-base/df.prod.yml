@@ -1,0 +1,35 @@
+# ##########################################################
+# Dockerfile for the cargo-base production image.
+# ----------------------------------------------------------
+
+FROM node:7.0.0
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+ENV NODE_ENV=production
+
+# Install common dependencies:
+COPY package.json /cargo/
+WORKDIR /cargo
+RUN npm install --quiet || cat npm-debug.log
+
+# Install cargo-lib:
+COPY cargo-lib /cargo/cargo-lib
+COPY config /cargo/config
+COPY local_modules /cargo/local_modules
+
+# Add the binaries that were locally installed by cargo-base in the PATH so that they can be
+# called on the command line:
+ENV PATH=/cargo/node_modules/.bin/:$PATH
+
+# Add `/cargo` and '/cargo/local_modules` in NODE_PATH, so that `cargo-lib` (in /cargo/cargo-lib/)
+# and modules installed in `/cargo/local_modules` can be required from any location:
+ENV NODE_PATH=.:/cargo:/cargo/local_modules
+
+# Install the cargo manifest, install the service app in /cargo/app and run the startup.sh script:
+ONBUILD COPY lib /cargo/app/lib
+ONBUILD COPY package.json /cargo/app/
+ONBUILD WORKDIR /cargo/app
+ONBUILD RUN (npm install --quiet || cat npm-debug.log) && npm cache clean
+
+ONBUILD CMD [ "npm", "start" ]

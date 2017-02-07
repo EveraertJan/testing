@@ -1,0 +1,140 @@
+version: '2'
+
+networks:
+  default:
+    ipam:
+      config:
+      - subnet: 10.60.0.0/16
+  soyl-auth:
+    ipam:
+      config:
+      - subnet: 10.61.0.0/16
+  system_traefik:
+    external: true
+
+services:
+
+  # ------------------------------------------------------------------------------------------------
+  # Duxis base services:
+
+  soyl-auth:
+    extends:
+      file: dc.base.yml
+      service: soyl-auth
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 1
+      NODE_ENV: production
+
+  soyl-auth-store:
+    extends:
+      file: dc.base.yml
+      service: soyl-auth-store
+    build:
+      dockerfile: df.prod.yml
+
+  soyl-broker:
+    extends:
+      file: dc.base.yml
+      service: soyl-broker
+    build:
+      dockerfile: df.prod.yml
+#    volumes:
+#      - ./_volumes/redis-broker/config:/usr/redis/config
+
+  # ------------------------------------------------------------------------------------------------
+  # wijze-stad services:
+
+  wijze-stad-admin:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-admin
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 4
+      NODE_ENV: production
+
+  wijze-stad-user:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-user
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 4
+      NODE_ENV: production
+
+  wijze-stad-admin-api:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-admin-api
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 3
+      NODE_ENV: production
+
+  wijze-stad-log-archiver:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-log-archiver
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 3
+      NODE_ENV: production
+
+  wijze-stad-log-service:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-log-service
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 3
+      NODE_ENV: production
+
+  wijze-stad-question-admin:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-question-admin
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      CARGO_DELAY: 3
+      NODE_ENV: production
+
+  wijze-stad-pgweb:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-pgweb
+
+  wijze-stad-postgres:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-postgres
+    build:
+      dockerfile: df.prod.yml
+    environment:
+      NODE_ENV: development
+      POSTGRES_PASSWORD: rootpass
+      POSTGRES_USER: root
+    volumes:
+      - ./_volumes/wijze-stad-postgres/data:/var/lib/postgresql/data
+
+  wijze-stad-socket-server:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-socket-server
+    build:
+      dockerfile: df.prod.yml
+    links: 
+      - wijze-stad-log-service
+    environment:
+      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 8
+      NODE_ENV: production
+
+

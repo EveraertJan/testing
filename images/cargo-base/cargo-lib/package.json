@@ -1,0 +1,28 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/iminds/fogg-server/issues"
+  },
+  "description": "Core library for Node.js apps in Cargo containers.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://bitbucket.org/iminds/fogg-server",
+  "licenses": "UNLICENSED",
+  "main": "lib/cargo-lib.js",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "cargo-lib",
+  "private": true,
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "version": "0.2.0"
+}

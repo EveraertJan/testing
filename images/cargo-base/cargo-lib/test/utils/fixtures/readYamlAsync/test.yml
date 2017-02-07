@@ -1,0 +1,14 @@
+
+number: 123
+string: abc
+bool_true: true
+bool_false: false
+object:
+  number: 123
+  string: abc
+  bool_true: true
+  bool_false: false
+array:
+  - 1
+  - 2
+  - three

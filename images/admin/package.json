@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/iminds/wijze-stad-server/issues"
+  },
+  "contributors": [],
+  "dependencies": {},
+  "description": "The Admin service.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://wijze-stad.iminds.be/",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "wijze-stad-admin",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --recursive"
+  },
+  "version": "0.0.3"
+}

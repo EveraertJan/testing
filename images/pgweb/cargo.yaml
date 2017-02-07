@@ -1,0 +1,8 @@
+
+service: wijze-stad-pgweb
+version: 0.0.1
+cargoApp: false
+cargoFrontend: false
+watchable: false
+dependencies:
+  - wijze-stad-postgres

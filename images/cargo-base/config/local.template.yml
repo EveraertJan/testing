@@ -1,0 +1,23 @@
+# Template for your local.yml configuration overrides:
+
+soyl:
+  auth:
+    jwtSecret: "long-random-string"
+    initialRootPassword: "password"
+
+store:
+  logs:
+    server:
+      user: "root"
+      password: "rootpass"
+  rewards:
+    server:
+      user: "root"
+      password: "rootpass"
+
+slackService:
+  enable: true
+  bot:
+    name: "fogg-xyz"
+    channel: "fogg-logs-xyz"
+    token: "xoxb-xxxxxx-xxxxxxxxxxxxxxxxxxxxxx"

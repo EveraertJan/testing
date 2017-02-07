@@ -1,0 +1,191 @@
+version: '2'
+
+services:
+
+  cargo-base:
+    environment:
+      APP_WATCH_MODE:
+      CARGO_DELAY:
+      CARGO_DELAY_OVERRIDE:
+      DC_PROJECT:           # set in the .env file
+      FE_PROTOCOL:          # set in the .env file
+      HTML_WATCH_MODE:
+      SOYL_HOST:
+      SOYL_VERSION:         # set in the .env file
+      NODE_CONFIG:          # config overrides, see https://github.com/lorenwest/node-config/wiki/Environment-Variables
+      NODE_ENV:
+      QUIET:
+      SERVICE:              # the name of the service, used in the startup.sh script in test mode
+      SERVICES:             # the names of the services, used in the startup.sh script in test mode
+      TEST_SUBJECT:         # the name of the primary service being tested
+      VERBOSE:
+    labels:
+      be.imec.duxis.project: $PROJECT_NAME
+      be.imec.duxis.version: $SOYL_VERSION
+
+  cargo-packer:
+    extends:
+      service: cargo-base
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+
+  # ------------------------------------------------------------------------------------------------
+  # Duxis base services:
+
+  soyl-auth:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/auth
+    networks:
+      - default
+      - soyl-auth
+      - system_traefik
+    labels:
+      traefik.backend: soyl-auth-api
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/auth
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+  soyl-auth-store:
+    build:
+      context: ./images/auth-store
+    networks:
+      - soyl-auth
+    volumes:
+      - ./_volumes/auth-store/data:/data
+    labels:
+      be.imec.duxis.project: $PROJECT_NAME
+      be.imec.duxis.version: $SOYL_VERSION
+      traefik.enable: "false"
+
+  soyl-broker:
+    build:
+      context: ./images/redis-broker
+    networks:
+      - default
+    labels:
+      be.imec.duxis.project: $PROJECT_NAME
+      be.imec.duxis.version: $SOYL_VERSION
+      traefik.enable: "false"
+
+  # ------------------------------------------------------------------------------------------------
+  # wijze-stad services:
+
+  wijze-stad-admin:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/admin
+    networks:
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-admin
+      traefik.frontend.rule: Host:admin.${SOYL_HOST};
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+
+  wijze-stad-log-archiver:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/log-archiver/
+    networks:
+      - default
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-log-archiver
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/results
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+  wijze-stad-log-service:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/log-service/
+    networks:
+      - default
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-log-service
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/logs
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+
+  wijze-stad-answer-admin:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/answer-admin/
+    networks:
+      - default
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-answer-admin
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/answer
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+  wijze-stad-user-admin:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/user-admin/
+    networks:
+      - default
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-user-admin
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/user
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
+  wijze-stad-pgweb:
+    image: donnex/pgweb
+    networks:
+      - default
+      - system_traefik
+    command: -s --bind=0.0.0.0 --listen=8081
+    labels:
+      be.imec.duxis.project: $PROJECT_NAME
+      be.imec.duxis.version: $SOYL_VERSION
+      traefik.backend: wijze-stad-pgweb
+      traefik.frontend.rule: Host:pg.${SOYL_HOST}
+      traefik.port: "8081"
+      traefik.docker.network: system_traefik
+
+  wijze-stad-postgres:
+    build:
+      context: ./images/postgres/
+    networks:
+      - default
+    environment:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+      POSTGRES_DB:
+    labels:
+      be.imec.duxis.project: $PROJECT_NAME
+      be.imec.duxis.version: $SOYL_VERSION
+      traefik.enable: "false"
+
+  wijze-stad-socket-server:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/socket-server/
+    networks:
+      - default
+      - system_traefik
+    ports:
+      - 4020:4020
+    labels:
+      traefik.backend: wijze-stad-socket-server
+      traefik.frontend.rule: Host:socket.${SOYL_HOST}; PathPrefix:/socket
+      traefik.docker.network: system_traefik
+
+
+

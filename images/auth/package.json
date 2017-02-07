@@ -1,0 +1,31 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/iminds/panelkit2/issues"
+  },
+  "contributors": [],
+  "dependencies": {
+  },
+  "description": "User authentication and authorization service.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://panelkit.iminds.be/",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "soyl-auth",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --bail --recursive"
+  },
+  "version": "0.0.1"
+}

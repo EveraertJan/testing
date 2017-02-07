@@ -1,0 +1,134 @@
+
+/* iMinds colors */
+//$fucsia: #E20177;
+//$grey-m1: #F8FAFB;
+//$grey-m2: #ECF2F5;
+//$grey-1: #DAE3E8;
+//$grey-2: #CED7DD;
+//$grey-3: #BDCCD2;
+//$grey-4: #8BA6B4;
+//$grey-5: #3E484F;
+
+/*
+ Open Sans
+ - Normal: 400
+ - Semi-Bold: 600
+ - Bold: 700
+*/
+
+/** Top Level Structure ------------------------------------------------------------------------- */
+
+body {
+  padding-top: 42px;
+}
+
+.content {
+  padding: 0 18px;
+}
+
+footer {
+  margin: 0 auto;
+  padding: 1em;
+  text-align: center;
+  font-size: .85em;
+  font-weight: 600;
+  color: $grey-4;
+}
+
+dl, ol, p, ul {
+  margin-bottom: 6px;
+}
+
+/** Bootstrap overrides ------------------------------------------------------------------------- */
+
+.navbar-fixed-top .container-fluid {
+  padding-left: 22px;
+}
+
+.navbar-toggle, .navbar-toggle .icon {
+  border: none;
+}
+
+.page-header {
+  margin-top: 24px;
+  margin-bottom: 9px;
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+hr {
+  border-top: 1px solid $grey-1 !important;
+  margin: 12px 0;
+}
+
+h2 {
+  margin-top: 5px;
+}
+
+h3 {
+  margin-top: 2.5px;
+}
+
+/** Common -------------------------------------------------------------------------------------- */
+
+.panel-menu {
+  margin-bottom: .5em;
+}
+
+/** Lists --------------------------------------------------------------------------------- */
+
+ul.log-items,
+ul.rules,
+ul.sheet-results
+{
+  padding: 0em;
+
+  border-top-width: 1px;
+  border-top-color: $input-border;
+  border-top-style: solid;
+
+}
+
+li.log-item,
+li.rule,
+li.sheet-result
+{
+  list-style-type: none;
+
+  margin: 0em;
+  padding: .5em;
+  background-color: white;
+
+  border-bottom-width: 1px;
+  border-bottom-color: $input-border;
+  border-bottom-style: solid;
+
+  animation-name: new-item;
+  animation-duration: .5s;
+}
+
+@keyframes new-item {
+  from {background-color: $grey-3;}
+  to {background-color: white;}
+}
+
+/** Labels -------------------------------------------------------------------------------------- */
+
+.connection-status {
+  display: inline-block;
+  width: 7em;
+  padding: .1em 0 .2em 0;
+  margin-bottom: 8px;
+  border-radius: .5em;
+  background-color: #D3795C;
+  box-shadow: 0px 0px 1px #785F18 inset;
+
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: .9em;
+  font-weight: 600;
+  text-shadow: 0px 0px 2px #6E5918;
+}

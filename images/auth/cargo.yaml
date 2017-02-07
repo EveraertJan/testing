@@ -1,0 +1,13 @@
+
+service: soyl-auth
+version: 0.0.1
+cargoApp: true
+cargoFrontend: false
+watchable: true
+dependencies:
+  - soyl-auth-store
+unitTests:
+  enable: true
+  service: test-soyl-auth
+  dependencies:
+    - test-soyl-auth-store

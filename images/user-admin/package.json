@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "Jan Everaert",
+    "email": "jan.everaert@iminds.be"
+  },
+  "bugs": { "url": "https://bitbucket.org/iminds/fogg-server/issues" },
+  "contributors": [],
+  "dependencies": {},
+  "description": "A Cargo-App that provides the API for managing rewards.",
+  "directories": {},
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://fogg.iminds.be",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Jan Everaert",
+      "email": "jan.everaert@iminds.be"
+    }
+  ],
+  "name": "reward-admin",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --recursive"
+  },
+  "version": "0.0.3"
+}

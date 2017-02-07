@@ -1,0 +1,21 @@
+# ##########################################################
+# Dockerfile for the development image.
+# ----------------------------------------------------------
+
+FROM cargo-base:dev
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+# Install the cargo manifest:
+COPY cargo.yaml /cargo/
+
+# Install the service specific frontend dependencies:
+COPY html/package.json /cargo/html/
+WORKDIR /cargo/html
+RUN (npm install --quiet || cat npm-debug.log) && npm cache clean
+WORKDIR /cargo/app
+
+# Front-end dependencies are installed in /cargo/html/node_modules but may be resolved
+# while /cargo/app is the working directory, e.g. when running the WebPack Hot Reload Middleware
+# in development mode.
+ENV NODE_PATH=$NODE_PATH:/cargo/html/node_modules

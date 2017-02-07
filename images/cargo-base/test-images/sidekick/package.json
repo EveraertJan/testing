@@ -1,0 +1,10 @@
+{
+  "description": "Container for testing the cargo-base image.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "licenses": "UNLICENSED",
+  "name": "test-cargo-base-sidekick",
+  "private": true,
+  "version": "0.0.1"
+}

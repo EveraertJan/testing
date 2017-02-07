@@ -1,0 +1,85 @@
+/* iMinds colors */
+$fucsia: #E20177;
+$grey-m1: #F8FAFB;
+$grey-m2: #ECF2F5;
+$grey-1: #DAE3E8;
+$grey-2: #CED7DD;
+$grey-3: #BDCCD2;
+$grey-4: #8BA6B4;
+$grey-5: #3E484F;
+
+
+// The following variables override the Bootstrap base variables.
+// See: https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
+
+$gray-base:              $grey-5 !default;
+$gray-darker:            $grey-5 !default; // #222
+$gray-dark:              $grey-5 !default;   // #333
+
+$brand-primary:          $fucsia !default; // #337ab7
+
+
+//== Typography
+//
+$font-family-sans-serif:  'Open Sans' !default;
+
+$font-size-base:          13px !default;
+
+$font-size-h1:            ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h2:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h3:            $font-size-base !default;
+
+$headings-font-weight:    600 !default;
+
+
+//== Components
+//
+$padding-base-vertical:     3px !default;
+$padding-base-horizontal:   6px !default;
+
+$padding-large-vertical:    5px !default;
+$padding-large-horizontal:  8px !default;
+
+$padding-small-vertical:    2.5px !default;
+$padding-small-horizontal:  5px !default;
+
+
+//== Forms
+//
+//** Text color for `<input>`s
+$input-color:                    $grey_4 !default;
+
+
+//== Navbar
+//
+// Basics of a navbar
+$navbar-height:                    40px !default;
+$navbar-padding-horizontal:        20px !default;
+
+$navbar-default-color:             $grey-1 !default;
+$navbar-default-bg:                #ffffff !default;
+$navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
+
+//// Navbar brand label
+//$navbar-default-brand-color:               $navbar-default-color !default;
+//$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+//$navbar-default-brand-hover-bg:            transparent !default;
+
+//=== Inverted navbar
+// Reset inverted navbar basics
+$navbar-inverse-color:                      #ffffff !default;
+$navbar-inverse-bg:                         $fucsia !default;
+$navbar-inverse-border:                     $grey-1 !default;
+
+//== Panel
+//
+$panel-heading-padding:       5px 10px !default;
+$panel-body-padding:          10px !default;
+
+//** Border color for elements within panels
+$panel-inner-border:          $grey-4 !default;
+$panel-footer-bg:             #f5f5f5 !default;
+
+$panel-default-text:          $grey-5 !default;
+$panel-default-border:        $grey-3 !default;
+$panel-default-heading-bg:    $grey-m2 !default;

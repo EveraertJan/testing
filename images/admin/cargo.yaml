@@ -1,0 +1,13 @@
+
+service: wijze-stad-admin
+version: 0.0.3
+cargoApp: false
+cargoFrontend: true
+watchable: true
+dependencies:
+#  - fogg-admin-api
+  - wijze-stad-log-archiver
+  - wijze-stad-log-service
+unitTests:
+  enable: false
+#  service: test-fogg-admin

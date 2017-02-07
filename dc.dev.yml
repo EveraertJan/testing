@@ -1,0 +1,169 @@
+version: '2'
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.60.0.0/16
+  soyl-auth:
+    ipam:
+      config:
+        - subnet: 10.61.0.0/16
+  system_traefik:
+    external: true
+#    ipam:
+#      config:
+#        - subnet: 10.62.0.0/16
+
+services:
+
+  # ------------------------------------------------------------------------------------------------
+  # Duxis base services:
+
+  soyl-auth:
+    extends:
+      file: dc.base.yml
+      service: soyl-auth
+    build:
+      dockerfile: df.dev.yml
+    environment:
+#      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 1
+      NODE_ENV: development
+#      VERBOSE: "true"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/auth/lib:/cargo/app/lib
+
+  soyl-auth-store:
+    extends:
+      file: dc.base.yml
+      service: soyl-auth-store
+    build:
+      dockerfile: df.dev.yml
+
+  soyl-broker:
+    extends:
+      file: dc.base.yml
+      service: soyl-broker
+    build:
+      dockerfile: df.dev.yml
+#    volumes:
+#        - ./_volumes/redis-broker/config:/usr/redis/config
+
+  # ------------------------------------------------------------------------------------------------
+  # wijze-stad services:
+
+  wijze-stad-admin:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-admin
+    build:
+      dockerfile: df.dev.yml
+    environment:
+      CARGO_DELAY: 9
+#      HTML_WATCH_MODE: "true"
+      NODE_ENV: development
+#      VERBOSE: "true"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/admin/lib:/cargo/app/lib
+      - ./images/admin/html/dist:/cargo/html/dist
+      - ./images/admin/html/src:/cargo/html/src
+
+
+  wijze-stad-log-archiver:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-log-archiver
+    build:
+      dockerfile: df.dev.yml
+    environment:
+#      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 5
+      NODE_ENV: development
+      POSTGRES_DB:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+#      VERBOSE: "true"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/log-archiver/lib:/cargo/app/lib
+
+  wijze-stad-log-service:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-log-service
+    build:
+      dockerfile: df.dev.yml
+    environment:
+#      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 6
+      NODE_ENV: development
+#      VERBOSE: "true"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/log-service/lib:/cargo/app/lib
+
+  wijze-stad-question-admin:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-question-admin
+    build:
+      dockerfile: df.dev.yml
+    environment:
+#      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 6
+      NODE_ENV: development
+#      VERBOSE: "true"
+      POSTGRES_DB:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/question-admin/lib:/cargo/app/lib
+
+  wijze-stad-pgweb:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-pgweb
+    command: -s --bind=0.0.0.0 --listen=8081 --host=wijze-stad-postgres --port=5432 --ssl=disable --user=$POSTGRES_USER --pass=$POSTGRES_PASSWORD --db=$POSTGRES_DB
+
+  wijze-stad-postgres:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-postgres
+    build:
+      dockerfile: df.dev.yml
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./_volumes/wijze-stad-postgres/data:/var/lib/postgresql/data
+
+
+  wijze-stad-socket-server:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-socket-server
+    build:
+      dockerfile: df.dev.yml
+    links: 
+      - wijze-stad-log-service
+    environment:
+      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 8
+      NODE_ENV: development
+      VERBOSE: "true"
+      POSTGRES_DB:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/socket-server/lib:/cargo/app/lib
+

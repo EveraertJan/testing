@@ -1,0 +1,14 @@
+.DS_Store
+.env
+.env.tocker
+.idea
+.tm_properties
+_dev
+_volumes
+node_modules
+npm-debug.log
+images/cargo-base/config/development.yml
+images/cargo-base/config/production.yml
+acme.json
+scripts/
+sad_backups/

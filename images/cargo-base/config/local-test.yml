@@ -1,0 +1,10 @@
+# local-test configuration overrides:
+
+soyl:
+  auth:
+    host: "test-soyl-auth"
+    storeHost: "test-soyl-auth-store"
+
+store:
+  base:
+    host: "test-fogg-postgres"

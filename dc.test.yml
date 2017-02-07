@@ -1,0 +1,232 @@
+version: '2'
+
+networks:
+  default:
+    ipam:
+      config:
+      - subnet: 10.40.0.0/16
+  soyl-auth:
+    ipam:
+      config:
+      - subnet: 10.41.0.0/24
+  system_traefik:
+    external: true
+
+services:
+
+  # ------------------------------------------------------------------------------------------------
+  # Duxis base services:
+
+  test-cargo-base:
+    extends:
+      file: dc.base.yml
+      service: cargo-base
+    build:
+      context: ./images/cargo-base/test-images/main
+      dockerfile: df.yml
+    networks:
+      - default
+    environment:
+      NODE_ENV: test
+      QUIET: "true"
+      SERVICE: test-cargo-base
+#      TESTS: api/cargoApi.test
+#      TESTS: api/jwt.test
+#      TESTS: docker.test
+#      TESTS: Promise.test.js
+#      TESTS: utils/cargoManifest.test
+#      TESTS: utils/fs.test
+#      TESTS: Promise.test.js utils/cargoManifest.test
+#      TESTS: utils  # run all tests in test/utils
+#      VERBOSE: "true"
+    labels:
+      traefik.enable: "false"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  test-cargo-base-sidekick:
+    extends:
+      file: dc.base.yml
+      service: cargo-base
+    build:
+      context: ./images/cargo-base/test-images/sidekick
+      dockerfile: df.yml
+    networks:
+      - default
+    environment:
+      NODE_ENV: test
+      QUIET: "true"
+#      VERBOSE: "true"
+      SERVICE: test-cargo-base-sidekick
+    labels:
+      traefik.enable: "false"
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/cargo-base/test-images/sidekick/lib:/cargo/app/lib
+
+  test-soyl-auth:
+    extends:
+      file: dc.dev.yml
+      service: soyl-auth
+    environment:
+      CARGO_DELAY_OVERRIDE: 0
+      NODE_ENV: test
+      QUIET: "true"
+      SERVICE: test-soyl-auth
+#      TESTS: AuthRouter.test.js
+#      TESTS: AuthManager/t1.roles.js
+#      TESTS: AuthManager/t2.users.js
+#      TESTS: AuthManager/t3.users-roles.js
+#      TESTS: AuthManager/t4.activities.js
+#      TESTS: AuthManager/t5.auth.js
+#      TESTS: AuthManager/t6.case.js
+#      TESTS: App/authAPI.test.js
+#      TESTS: App/userAPI.test.js
+    labels:
+      traefik.enable: "false"
+    volumes:
+      - ./images/auth/test:/cargo/app/test
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  test-soyl-auth-store:
+    extends:
+      file: dc.dev.yml
+      service: soyl-auth-store
+    environment:
+      SERVICE: test-soyl-auth-store
+    labels:
+      traefik.enable: "false"
+    volumes:
+      - ./_volumes/test-auth-store/data:/data
+
+#  test-soyl-broker:
+#    extends:
+#      file: dc.dev.yml
+#      service: soyl-broker
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-soyl-broker
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/redis-broker/test:/cargo/app/test
+
+  # ------------------------------------------------------------------------------------------------
+  # Mupets services:
+
+#  test-fogg-admin:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-admin
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-admin
+#    labels:
+#      traefik.enable: "false"
+
+#  test-fogg-admin-api:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-admin-api
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-admin-api
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/admin-api/test:/cargo/app/test
+##      - /var/run/docker.sock:/var/run/docker.sock
+
+#  test-fogg-log-archiver:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-log-archiver
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-log-archiver
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/log-archiver/test:/cargo/app/test
+##      - /var/run/docker.sock:/var/run/docker.sock
+
+#  test-fogg-log-service:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-log-service
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-log-service
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/log-service/test:/cargo/app/test
+##      - /var/run/docker.sock:/var/run/docker.sock
+
+  test-fogg-postgres:
+    extends:
+      file: dc.dev.yml
+      service: fogg-postgres
+    volumes:
+      - ./_volumes/test-fogg-postgres/data:/var/lib/postgresql/data
+    labels:
+      traefik.enable: "false"
+
+  test-fogg-reward-admin:
+    extends:
+      file: dc.dev.yml
+      service: fogg-reward-admin
+    environment:
+      CARGO_DELAY_OVERRIDE: 5
+      NODE_ENV: test
+#      QUIET: "true"
+      VERBOSE: "true"
+      SERVICE: test-fogg-reward-admin
+    labels:
+      traefik.enable: "false"
+    volumes:
+      - ./images/reward-admin/test:/cargo/app/test
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#  test-fogg-rules-engine:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-rules-engine
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-rules-engine
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/rules-engine/test:/cargo/app/test
+##      - /var/run/docker.sock:/var/run/docker.sock
+
+#  test-fogg-slack-service:
+#    extends:
+#      file: dc.dev.yml
+#      service: fogg-slack-service
+#    environment:
+#      CARGO_DELAY_OVERRIDE: 0
+#      NODE_ENV: test
+#      QUIET: "true"
+#      SERVICE: test-fogg-slack-service
+#    labels:
+#      traefik.enable: "false"
+#    volumes:
+#      - ./images/slack-service/test:/cargo/app/test
+##      - /var/run/docker.sock:/var/run/docker.sock

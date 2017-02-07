@@ -1,0 +1,10 @@
+# ##########################################################
+# Dockerfile for the production image.
+# ----------------------------------------------------------
+
+FROM cargo-base
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+# Install the cargo manifest:
+COPY cargo.yaml /cargo/

@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+
+  fogg-admin-packer:
+    extends:
+      file: ../../../dc.base.yml
+      service: cargo-packer
+    build:
+      context: .
+      dockerfile: df.yml
+    volumes:
+      - ./src:/cargo/html/src
+      - ./dist:/cargo/html/dist

@@ -1,0 +1,13 @@
+
+service: wijze-stad-reward-server
+version: 0.0.3
+cargoApp: true
+cargoFrontend: false
+dependencies:
+  - wijze-stad-postgres
+watchable: true
+unitTests:
+  enable: true
+  service: test-wijze-stad-reward-server
+  dependencies:
+    - test-wijze-stad-postgres

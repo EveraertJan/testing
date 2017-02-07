@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": { "url": "https://bitbucket.org/iminds/mupets-server/issues" },
+  "contributors": [],
+  "dependencies": {
+  },
+  "description": "The log service cargo, a Node.js app that runs in a Docker container and provides a HTTP service with the Mupets log API. The log messages it receives are published on the stream broker.",
+  "directories": {},
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://mupets.iminds.be",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "log-service",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --recursive"
+  },
+  "version": "0.1.1"
+}

@@ -1,0 +1,12 @@
+# ##########################################################
+# Dockerfile for the development image.
+# ----------------------------------------------------------
+
+FROM cargo-base:dev
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+# Install the cargo manifest:
+COPY cargo.yaml /cargo/
+
+CMD ["node", "lib/index.js"]

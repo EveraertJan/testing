@@ -1,0 +1,23 @@
+# ##########################################################
+# Dockerfile for the development duxis/soyl-store image.
+# ----------------------------------------------------------
+
+FROM gliderlabs/alpine:3.4
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+RUN apk add --no-cache curl redis
+
+RUN curl -o /usr/local/bin/gosu -sSL "https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64"
+RUN chmod +x /usr/local/bin/gosu
+RUN apk del curl
+
+RUN mkdir /data && chown nobody:nobody /data
+VOLUME /data
+WORKDIR /data
+
+#RUN mkdir -p /usr/redis/config/
+#VOLUME /usr/redis/config
+
+EXPOSE 6379
+CMD [ "redis-server", "--appendonly", "yes", "--protected-mode", "no", "--loglevel", "notice" ]

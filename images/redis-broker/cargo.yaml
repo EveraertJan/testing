@@ -1,0 +1,6 @@
+
+service: soyl-broker
+version: 0.0.2
+cargoApp: false
+cargoFrontend: false
+watchable: false

@@ -1,0 +1,19 @@
+# ##########################################################
+# Dockerfile for the packer image.
+# ----------------------------------------------------------
+
+FROM cargo-base:dev
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+# Install the service specific frontend dependencies:
+COPY package.json /cargo/html/
+WORKDIR /cargo/html
+RUN (npm install --quiet || cat npm-debug.log) && npm cache clean
+
+# Front-end dependencies are installed in /cargo/html/node_modules but may need to be resolved
+# while /cargo/app is the working directory.
+ENV NODE_PATH=$NODE_PATH:/cargo/html/node_modules
+
+# Start the package installed in /cargo/app:
+CMD ["node",  "/cargo/cargo-lib/html/pack.js"]

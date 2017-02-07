@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/iminds/fogg-server/issues"
+  },
+  "dependencies": {
+    "react-date-picker": "5.3.28",
+    "socket.io-client": "1.6.0"
+  },
+  "description": "A webpack container to build web content.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://fogg.iminds.be",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "admin-packer",
+  "private": true,
+  "scripts": {
+  },
+  "version": "0.1.0"
+}

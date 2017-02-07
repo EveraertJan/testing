@@ -1,0 +1,32 @@
+{
+  "author": {
+    "name": "Jan Everaert",
+    "email": "jan.everaert@iminds.be"
+  },
+  "bugs": { "url": "https://bitbucket.org/iminds/fogg-server/issues" },
+  "contributors": [],
+  "dependencies": {
+    "koa.io": "0.0.3",
+    "axios": "0.15.3"
+  },
+  "description": "A Cargo-App that provides the socket connection for the frontend.",
+  "directories": {},
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://fogg.iminds.be",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Jan Everaert",
+      "email": "jan.everaert@iminds.be"
+    }
+  ],
+  "name": "reward-server",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --recursive"
+  },
+  "version": "0.0.3"
+}

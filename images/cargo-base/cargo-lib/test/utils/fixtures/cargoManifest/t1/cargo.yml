@@ -1,0 +1,15 @@
+
+service: cargo-base-test
+version: 0.0.1
+cargoApp: true
+cargoFrontend: true
+watchable: true
+dependencies:
+  - some-service
+  - another-service
+unitTests:
+  enable: true
+  service: test-cargo-base-test
+  dependencies:
+    - test-some-service
+    - test-another-service

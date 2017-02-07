@@ -1,0 +1,31 @@
+{
+  "author": {
+    "name": "Wouter Van den Broeck",
+    "email": "wouter.vandenbroeck@iminds.be"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/iminds/mupets-server/issues"
+  },
+  "contributors": [],
+  "dependencies": {
+  },
+  "description": "The log archiver service, A Node.js service that runs in a Docker container. It subscribes to the incoming log event stream on Kafka and stores the events in OrientDB.",
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "homepage": "https://mupets.iminds.be",
+  "licenses": "UNLICENSED",
+  "maintainers": [
+    {
+      "name": "Wouter Van den Broeck",
+      "email": "wouter.vandenbroeck@iminds.be"
+    }
+  ],
+  "name": "log-archiver",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js",
+    "test": "mocha --recursive"
+  },
+  "version": "0.0.3"
+}

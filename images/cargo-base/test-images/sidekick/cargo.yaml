@@ -1,0 +1,8 @@
+
+service: test-cargo-base-sidekick
+version: 0.0.1
+cargoApp: true
+cargoFrontend: false
+watchable: false
+unitTests:
+  enable: false

@@ -1,0 +1,13 @@
+# ##########################################################
+# Dockerfile for the development soyl-broker image.
+# ----------------------------------------------------------
+
+FROM redis:3-alpine
+
+MAINTAINER Wouter Van den Broeck for iMinds (wouter.vandenbroeck@iminds.be)
+
+CMD [ "redis-server", "--loglevel", "notice" ]
+
+#RUN mkdir -p /usr/redis/config/
+#VOLUME /usr/redis/config
+#CMD [ "redis-server", "/usr/redis/config/dev.redis.conf" ]

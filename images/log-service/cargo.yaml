@@ -1,0 +1,11 @@
+
+service: wijze-stad-log-service
+version: 0.1.1
+cargoApp: true
+cargoFrontend: false
+watchable: true
+dependencies:
+  - soyl-broker
+unitTests:
+  enable: false
+#  service: test-wijze-stad-log-service
