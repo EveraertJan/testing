@@ -64,7 +64,12 @@ class App extends cargo.CargoApp {
         //save questionlist in the state
         //give next id to answe anything
         const result = yield _this.getQuestionList();
-        this.body = result;
+        //result.sort(_this.dynamicSort('thema'));
+        const resp = _this.cherryPick(_this.shuffleArray(result));
+        resp.sort(_this.dynamicSort('thema'));
+        // send number of questions to the frontend, from each series one
+        // implement filter here
+        this.body = resp;
       })
       .post('/questions/', function* () {
         //get questions
@@ -97,7 +102,34 @@ class App extends cargo.CargoApp {
         this.body = result;
       })
   }
+  cherryPick(results) {
+    const catised = {};
+    for( const item in results) {
+      catised[results[item].thema] = results[item];
+    }
+    return catised;
+  }
 
+  dynamicSort(property) {
+    let sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return (a,b) => {
+        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+  }
+  shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+  }
   addQuestion(payload) {
     if(typeof payload.label === "undefined") {
       log.error("no label");
