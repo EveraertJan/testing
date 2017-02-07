@@ -118,11 +118,11 @@ class PostgresStore extends StoreBase {
           type: 'insert',
           table,
           values: doc
-        }).query;
+        }).query.replace(';', '') + ' RETURNING idx';
         log.trace(query);
         client.query(query, function (err, result) {
           done();
-          err ? reject(err) : resolve(result);
+          err ? reject(err) : resolve(result.rows[0].idx);
         });
       })
     })
@@ -131,7 +131,7 @@ class PostgresStore extends StoreBase {
       });
   }
 
-  deleteDoc(table, doc) {
+  deleteDoc(table, idx) {
     const app = this;
     //log.trace('message from store', doc);
     try {
@@ -141,7 +141,7 @@ class PostgresStore extends StoreBase {
             type: 'remove',
             table,
             condition: {
-              id: doc.id
+              idx: idx
             }
           }).query;
           //app.log.trace(query);
@@ -177,6 +177,26 @@ class PostgresStore extends StoreBase {
               err ? reject(err) : resolve(result.rows);
             });
           }
+        })
+      });
+    }
+    catch (err) {
+
+    }
+  }
+  /**
+   * Returns a promise that lists and resolves to all records in the current OrientDB class.
+   *
+   * @returns {Promise}
+   */
+  detailDoc(table, idx = 0) {
+    try {
+      return new Promise((resolve, reject) => {
+        this._server.connect(function (err, client, done) {
+          client.query(`SELECT * FROM ${table} WHERE idx='${idx}'`, function (err, result) {
+            done();
+            err ? reject(err) : resolve(result.rows[0]);
+          });
         })
       });
     }

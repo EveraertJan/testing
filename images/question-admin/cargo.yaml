@@ -1,0 +1,13 @@
+
+service: fogg-reward-admin
+version: 0.0.3
+cargoApp: true
+cargoFrontend: false
+dependencies:
+  - fogg-postgres
+watchable: true
+unitTests:
+  enable: true
+  service: test-fogg-reward-admin
+  dependencies:
+    - test-fogg-postgres

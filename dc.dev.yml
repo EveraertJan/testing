@@ -147,6 +147,25 @@ services:
       - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
       - ./images/user-admin/lib:/cargo/app/lib
 
+  wijze-stad-question-admin:
+    extends:
+      file: dc.base.yml
+      service: wijze-stad-question-admin
+    build:
+      dockerfile: df.dev.yml
+    environment:
+#      APP_WATCH_MODE: "true"
+      CARGO_DELAY: 6
+      NODE_ENV: development
+#      VERBOSE: "true"
+      POSTGRES_DB:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+    volumes:
+      - ./images/cargo-base/config:/cargo/config
+      - ./images/cargo-base/cargo-lib:/cargo/cargo-lib
+      - ./images/question-admin/lib:/cargo/app/lib
+
   wijze-stad-pgweb:
     extends:
       file: dc.base.yml

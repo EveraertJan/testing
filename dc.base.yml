@@ -144,6 +144,20 @@ services:
       traefik.port: "80"
       traefik.docker.network: system_traefik
 
+  wijze-stad-question-admin:
+    extends:
+      service: cargo-base
+    build:
+      context: ./images/question-admin/
+    networks:
+      - default
+      - system_traefik
+    labels:
+      traefik.backend: wijze-stad-question-admin
+      traefik.frontend.rule: Host:api.${SOYL_HOST}; PathPrefix:/questions
+      traefik.port: "80"
+      traefik.docker.network: system_traefik
+
   wijze-stad-pgweb:
     image: donnex/pgweb
     networks:

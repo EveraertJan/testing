@@ -22,7 +22,7 @@ class App extends cargo.CargoApp {
 
   /** @inheritdoc */
   *onStart() {
-    this.usersTable = this.config.get('store.users.table');
+    this.questionsTable = this.config.get('store.questions.table');
 
     const storeOpts = Object.assign({}, this.config.get('store.base'), this.config.get('store.users'));
     this.store = yield cargo.storeManager.initStore(storeOpts.type, storeOpts);
@@ -47,83 +47,82 @@ class App extends cargo.CargoApp {
    */
   initAPI(router) {
     const logsTable = this.logsTable;
-    const usersTable = this.usersTable;
+    const questionsTable = this.questionsTable;
     const store = this.store;
 
      const _this = this;
     const devMode = this.config.devMode;
 
     router
-      .get('/users/test', function* () {
+      .get('/questions/test', function* () {
         this.body = {
           test: 'success'
         };
       })
-      .get('/users/', function* () {
-        //get users
-        //save userlist in the state
+      .get('/questions/', function* () {
+        //get questions
+        //save questionlist in the state
         //give next id to answe anything
-        const result = yield _this.getUserList();
+        const result = yield _this.getQuestionList();
         this.body = result;
       })
-      .post('/users/', function* () {
-        //get users
-        //save userlist in the state
+      .post('/questions/', function* () {
+        //get questions
+        //save questionlist in the state
         //give next id to answe anything
         const report = this.request.body; 
-        const result = yield _this.addUser(this.request.body);
+        const result = yield _this.addQuestion(this.request.body);
         this.body = result;
       }) 
-      .get('/users/:idx', function* () {
-        //get users
-        //save userlist in the state
+      .get('/questions/:idx', function* () {
+        //get questions
+        //save questionlist in the state
         //give next id to answe anything
         const idx = this.params.idx;
         if(idx === null) {
           _this.log.error('no idx defined', this.params);
         } 
-        const result = yield _this.getUser(idx);
+        const result = yield _this.getQuestion(idx);
         this.body = result;
       })
-      .delete('/users/:idx', function* () {
-        //get users
-        //save userlist in the state
+      .delete('/questions/:idx', function* () {
+        //get questions
+        //save questionlist in the state
         //give next id to answe anything
         const idx = this.params.idx;
         if(idx === null) {
           _this.log.error('no idx defined', this.params.idx);
         } 
-        const result = yield _this.deleteUser(this.params.idx);
+        const result = yield _this.deleteQuestion(this.params.idx);
         this.body = result;
       })
   }
 
-  addUser(payload) {
-    if(typeof payload.username === "undefined") {
-      log.error("no username");
+  addQuestion(payload) {
+    if(typeof payload.label === "undefined") {
+      log.error("no label");
       return {};
     }
-    if(typeof payload.email === "undefined") {
-      log.error("no email");
+    if(typeof payload.type === "undefined") {
+      log.error("no type");
       return {};
     }
-    if(typeof payload.age === "undefined") {
-      log.error("no age");
+    if(typeof payload.question === "undefined") {
+      log.error("no question");
       return {};
     }
-    if(typeof payload.gender === "undefined") {
-      log.error("no gender");
+    if(typeof payload.explanation === "undefined") {
+      log.error("no explanation");
       return {};
     }
     const _this = this;
-    payload['date_add'] = new Date().getTime();
     // TODO: first assert that there isn't already a reward with the given id...
     //log.debug(payload);
-    return this.store.insertDoc(this.usersTable, payload)
+    return this.store.insertDoc(this.questionsTable, payload)
       .then((res) => {
         //this.rewardEngine.addReward(`rwd.${label}`, payload);
         if (this.config.devMode) {
-          log.trace(`user added`);
+          log.trace(`question added`);
         }
         return res
       })
@@ -133,47 +132,47 @@ class App extends cargo.CargoApp {
         log.error(`- error:`, error);
       });
   }
-  getUserList() {
+  getQuestionList() {
     const _this = this;
     // TODO: first assert that there isn't already a reward with the given id...
     //log.debug(payload);
-    return this.store.list(this.usersTable)
+    return this.store.list(this.questionsTable)
       .then((res) => {
         _this.log.trace('list retrieved');
         return res
       })
       .catch((error) => {
-        log.error(`Failed to get the user:`);
+        log.error(`Failed to get the question:`);
         log.error(`- message:`, error.message);
         log.error(`- error:`, error);
       });
   }
-  getUser(idx) {
+  getQuestion(idx) {
     const _this = this;
     // TODO: first assert that there isn't already a reward with the given id...
     //log.debug(payload);
-    return this.store.detailDoc(this.usersTable, idx)
+    return this.store.detailDoc(this.questionsTable, idx)
       .then((res) => {
         _this.log.trace('detail retrieved');
         return res
       })
       .catch((error) => {
-        log.error(`Failed to get the user:`);
+        log.error(`Failed to get the question:`);
         log.error(`- message:`, error.message);
         log.error(`- error:`, error);
       });
   }
-  deleteUser(idx) {
+  deleteQuestion(idx) {
     const _this = this;
     // TODO: first assert that there isn't already a reward with the given id...
     //log.debug(payload);
-    return this.store.deleteDoc(this.usersTable, idx)
+    return this.store.deleteDoc(this.questionsTable, idx)
       .then((res) => {
         _this.log.trace('detail deleted');
         return res
       })
       .catch((error) => {
-        log.error(`Failed to get the user:`);
+        log.error(`Failed to get the question:`);
         log.error(`- message:`, error.message);
         log.error(`- error:`, error);
       });
