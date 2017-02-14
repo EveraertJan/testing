@@ -62,6 +62,10 @@ class App extends cargo.CargoApp {
           test: 'success'
         };
       })
+      .post('/answers/testsocket', function* () {
+        _this.publishEvents(this.request.body);
+        this.body = {'response' : 'success'};
+      })
       .get('/answers/', function* () {
         //get answers
         //save answerlist in the state

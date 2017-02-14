@@ -34,6 +34,7 @@
     "json-loader": "0.5.4",
     "json-sql": "0.3.8",
     "jsx-loader": "0.13.2",
+    "koa.io": "0.0.3",
     "node-sass": "3.13.0",
     "nodemon": "1.11.0",
     "postcss-loader": "1.1.1",
